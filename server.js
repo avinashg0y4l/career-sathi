@@ -4,15 +4,17 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 
 const app = express();
-const PORT = 5000;
+
+// Use Railway port or default to 5000
+const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static("public")); // ✅ Serve HTML, CSS, JS from public
+app.use(express.static("public")); // Serve HTML, CSS, JS from public
 
-// MySQL connection
+// MySQL connection using Railway environment variables
 const db = mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
@@ -21,6 +23,7 @@ const db = mysql.createConnection({
   port: process.env.DB_PORT
 });
 
+// Connect to MySQL
 db.connect((err) => {
   if (err) console.error("❌ MySQL connection error:", err);
   else console.log("✅ Connected to MySQL Database");
@@ -82,4 +85,5 @@ app.get("/jobs", (req, res) => {
   });
 });
 
-app.listen(PORT, () => console.log(`🚀 Server running on http://localhost:${PORT}`));
+// Start server
+app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
