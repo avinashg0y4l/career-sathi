@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Add Job - Career Sathi</title>
+</head>
+<body>
+  <h2>Add Job</h2>
+  <form id="jobForm">
+    <input type="text" name="title" placeholder="Job Title" required /><br><br>
+    <input type="text" name="company" placeholder="Company" /><br><br>
+    <textarea name="description" placeholder="Description"></textarea><br><br>
+    <button type="submit">Add Job</button>
+  </form>
+
+  <script>
+    const form = document.getElementById('jobForm');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const user = JSON.parse(localStorage.getItem('user'));
+      if(!user) return alert('Login first to add jobs!');
+
+      const data = {
+        title: form.title.value,
+        company: form.company.value,
+        description: form.description.value,
+        posted_by: user.id
+      };
+
+      const res = await fetch('http://localhost:5000/jobs', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      const result = await res.json();
+      alert(result.message || result.error);
+      if(res.status === 201) window.location.href = 'jobs.html';
+    });
+  </script>
+</body>
+</html>

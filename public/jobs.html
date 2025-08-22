@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Jobs - Career Sathi</title>
+</head>
+<body>
+  <h2>Job Listings</h2>
+  <ul id="jobList"></ul>
+
+  <script>
+    async function loadJobs() {
+      const res = await fetch('http://localhost:5000/jobs');
+      const jobs = await res.json();
+      const list = document.getElementById('jobList');
+      list.innerHTML = '';
+      jobs.forEach(job => {
+        const li = document.createElement('li');
+        li.innerHTML = `<strong>${job.title}</strong> at ${job.company || 'N/A'} (Posted by: ${job.posted_by_name})`;
+        list.appendChild(li);
+      });
+    }
+
+    loadJobs();
+  </script>
+</body>
+</html>
