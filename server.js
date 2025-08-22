@@ -14,10 +14,10 @@ app.use(express.static("public")); // ✅ Serve HTML, CSS, JS from public
 
 // MySQL connection
 const db = mysql.createConnection({
-  host: "localhost",
+  host: "mysql.railway.internal",
   user: "root",
-  password: "Admin123",
-  database: "career_sathi"
+  password: "JAOrhoKSQTKBthERdPNVFPYAwlPDvlSr",
+  database: "railway"
 });
 
 db.connect((err) => {
