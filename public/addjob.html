@@ -14,11 +14,19 @@
   </form>
 
   <script>
+    const API_URL = "https://your-railway-backend-url.up.railway.app"; // <-- Replace with your deployed backend
+
     const form = document.getElementById('jobForm');
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
+
+      // Get logged-in user
       const user = JSON.parse(localStorage.getItem('user'));
-      if(!user) return alert('Login first to add jobs!');
+      if (!user) {
+        alert('Please login first to add jobs!');
+        window.location.href = 'login.html';
+        return;
+      }
 
       const data = {
         title: form.title.value,
@@ -27,14 +35,24 @@
         posted_by: user.id
       };
 
-      const res = await fetch('http://localhost:5000/jobs', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-      const result = await res.json();
-      alert(result.message || result.error);
-      if(res.status === 201) window.location.href = 'jobs.html';
+      try {
+        const res = await fetch(`${API_URL}/jobs`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+
+        const result = await res.json();
+        alert(result.message || result.error);
+
+        if (res.status === 201) {
+          window.location.href = 'jobs.html';
+        }
+
+      } catch (err) {
+        console.error('Error adding job:', err);
+        alert('Something went wrong. Please try again later.');
+      }
     });
   </script>
 </body>

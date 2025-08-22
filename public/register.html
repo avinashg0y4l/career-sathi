@@ -14,6 +14,8 @@
   </form>
 
   <script>
+    const API_URL = "https://your-railway-backend-url.up.railway.app"; // <-- Replace with your deployed backend URL
+
     const form = document.getElementById('registerForm');
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -22,13 +24,25 @@
         email: form.email.value,
         password: form.password.value
       };
-      const res = await fetch('http://localhost:5000/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-      const result = await res.json();
-      alert(result.message || result.error);
+
+      try {
+        const res = await fetch(`${API_URL}/register`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+
+        const result = await res.json();
+        if(res.ok) {
+          alert(result.message);
+          window.location.href = 'login.html'; // redirect to login page after registration
+        } else {
+          alert(result.error || "Registration failed");
+        }
+      } catch (err) {
+        console.error('Registration error:', err);
+        alert("Failed to connect to server. Try again later.");
+      }
     });
   </script>
 </body>
