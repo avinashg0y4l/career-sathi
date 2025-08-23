@@ -14,12 +14,23 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // MySQL connection
 const db = mysql.createConnection({
-  host: process.env.MYSQLHOST,
-  user: process.env.MYSQLUSER,
-  password: process.env.MYSQL_ROOT_PASSWORD,
-  database: process.env.MYSQLDATABASE,
-  port: process.env.MYSQLPORT
+  host: process.env.MYSQL_HOST,
+  user: process.env.MYSQL_USER,
+  password: process.env.MYSQL_PASSWORD,
+  database: process.env.MYSQL_DATABASE,
+  port: process.env.MYSQL_PORT
 });
+
+db.connect(err => {
+  if (err) {
+    console.error("❌ MySQL connection error:", err);
+    return;
+  }
+  console.log("✅ Connected to MySQL Database:", process.env.MYSQL_DATABASE);
+});
+
+// ... rest of your server code
+
 
 db.connect(err => {
   if (err) return console.error("❌ MySQL connection error:", err);
