@@ -1,7 +1,7 @@
 {
   "name": "career_sathi",
   "version": "1.0.0",
-  "description": "",
+  "description": "const pool = mysql.createPool({\r   host: process.env.MYSQL_HOST,\r   user: process.env.MYSQL_USER,\r   password: process.env.MYSQL_PASSWORD,\r   database: process.env.MYSQL_DATABASE,\r   port: process.env.MYSQL_PORT,\r   waitForConnections: true,\r   connectionLimit: 10,\r   queueLimit: 0\r });",
   "main": "app.js",
   "scripts": {
     "start": "node app.js"
